@@ -19,7 +19,7 @@
     </BaseButton>
 
     <AsyncButton color="primary" @click="handleAsyncButtonClick">
-      AsyncButton with 2s delay
+      AsyncButton with increasing delay ({{ clickCount }}s)
     </AsyncButton>
   </div>
 </template>
@@ -34,12 +34,18 @@ export default {
     BaseButton,
     AsyncButton
   },
+  data() {
+    return {
+      clickCount: 1
+    }
+  },
   methods: {
     handleAsyncButtonClick() {
       return new Promise((resolve) => {
         setTimeout(() => {
+          this.clickCount += 1
           resolve()
-        }, 2000)
+        }, this.clickCount * 1000)
       })
     }
   }

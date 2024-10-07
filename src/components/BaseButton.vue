@@ -1,6 +1,11 @@
 <template>
   <button
-      :class="['base-button', { 'base-button--disabled': disabled }, customClass]"
+      :class="[
+      'base-button',
+      colorClass,
+      { 'base-button--disabled': disabled },
+      customClass
+    ]"
       :disabled="disabled"
       :type="type"
       :role="role"
@@ -15,7 +20,7 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'button',  // Can be 'button', 'submit', etc.
+      default: 'button',
     },
     disabled: {
       type: Boolean,
@@ -27,33 +32,58 @@ export default {
     },
     customClass: {
       type: String,
-      default: '',  // Additional class for custom styling
+      default: '',
+    },
+    color: {
+      type: String,
+      default: 'primary',
+      validator(value) {
+        return ['primary', 'warn', 'danger'].includes(value);
+      }
+    }
+  },
+  computed: {
+    colorClass() {
+      return `base-button--${this.color}`;
     }
   }
 }
 </script>
 
 <style scoped>
+
 .base-button {
-  background-color: green;
-  color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  color: white;
 }
 
-.base-button:hover {
+.base-button--primary {
+  background-color: green;
+}
+
+.base-button--primary:hover {
   background-color: #28a745;
-  transform: scale(1.05);
 }
 
-.base-button:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  transform: scale(1.05);
+.base-button--warn {
+  background-color: orange;
+}
+
+.base-button--warn:hover {
+  background-color: #ff9800;
+}
+
+.base-button--danger {
+  background-color: red;
+}
+
+.base-button--danger:hover {
+  background-color: #d32f2f;
 }
 
 .base-button--disabled {
